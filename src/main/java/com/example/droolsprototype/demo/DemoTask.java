@@ -3,12 +3,14 @@ package com.example.droolsprototype.demo;
 import com.example.droolsprototype.execution.ExecutionService;
 import com.example.droolsprototype.model.QueryInfo;
 import com.example.droolsprototype.model.promql.AbstractQueryResult;
-import com.example.droolsprototype.query.PrometheusQueryService;
+import com.example.droolsprototype.services.PrometheusQueryService;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimerTask;
 
 /**
@@ -21,6 +23,8 @@ public class DemoTask extends TimerTask {
     private final KieSession kieSession;
     private final ExecutionService executionService;
 
+    private String[] queries;
+
     private QueryInfo toQuery;
     private final StringBuilder logBuilder;
 
@@ -28,11 +32,12 @@ public class DemoTask extends TimerTask {
         this.queryService = queryService;
         this.kieSession = kieSession;
         this.executionService = executionService;
-        this.toQuery = new QueryInfo("scalar({cpu=\"0\",__name__=\"node_cpu_guest_seconds_total\",mode=\"user\"})");
+        List<String> list = new ArrayList<>();
+        list.add("scalar({cpu=\"0\",__name__=\"node_cpu_guest_seconds_total\",mode=\"user\"})");
+        this.toQuery = new QueryInfo(list);
         this.logBuilder = new StringBuilder();
     }
 
-    @Override
     public void run() {
         QueryInfo toQuery = this.toQuery; //makes a local copy (so that it's immutable from the outside)
         //sending requests for metrics
@@ -73,6 +78,10 @@ public class DemoTask extends TimerTask {
 
     public String getQueryLogs() {
         return logBuilder.toString();
+    }
+
+    public void setQueries(String[] queries) {
+        this.queries = queries;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.droolsprototype.query;
+package com.example.droolsprototype.services;
 
 import com.example.droolsprototype.model.ResultTypes;
 import com.example.droolsprototype.model.promql.AbstractQueryResult;
