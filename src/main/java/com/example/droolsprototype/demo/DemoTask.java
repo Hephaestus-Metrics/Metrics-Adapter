@@ -2,6 +2,7 @@ package com.example.droolsprototype.demo;
 
 import com.example.droolsprototype.execution.ExecutionService;
 import com.example.droolsprototype.model.QueryInfo;
+import com.example.droolsprototype.model.metrics.MetricTemplate;
 import com.example.droolsprototype.model.promql.AbstractQueryResult;
 import com.example.droolsprototype.services.PrometheusQueryService;
 import org.kie.api.runtime.KieSession;
@@ -43,14 +44,13 @@ public class DemoTask extends TimerTask {
         //sending requests for metrics
         for (String query : toQuery.getQueries()) {
             try {
-                AbstractQueryResult complexQueryResult = queryService.queryMetric(query);
+                AbstractQueryResult queryResult = queryService.queryMetric(query);
                 logBuilder.append(query).append("\n"); //log query
-                // MetricTemplate metric = queryResult.getData().getResult()[0].toMetricObject();
-                System.out.println((complexQueryResult.getMetricObjects().get(0)));
+                for (MetricTemplate metric: queryResult.getMetricObjects()){
+                    kieSession.insert(metric);
+                }
+                //System.out.println((queryResult.getMetricObjects().get(0)));
                 //debug
-
-                //give control of these objects to the drools engine
-                //kieSession.insert(metric);
             } catch (Exception e) {
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
