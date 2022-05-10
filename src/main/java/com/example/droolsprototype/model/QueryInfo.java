@@ -10,8 +10,8 @@ public class QueryInfo {
         // required by jackson
     }
 
-    public QueryInfo(String... queries) {
-        this.queries = List.of(queries);
+    public QueryInfo(List<String> queries) {
+        this.queries = queries;
     }
 
     public List<String> getQueries() {
