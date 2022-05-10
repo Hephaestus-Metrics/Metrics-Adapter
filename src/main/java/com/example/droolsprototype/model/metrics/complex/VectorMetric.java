@@ -34,6 +34,7 @@ public class VectorMetric extends ComplexMetricTemplate {
                 "valueString=" + Arrays.toString(valueString) +
                 ", value=" + value +
                 ", timestamp=" + timestamp +
+                ", labels=" + super.getLabels() +
                 '}';
     }
 

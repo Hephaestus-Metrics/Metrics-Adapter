@@ -37,6 +37,7 @@ public class MatrixMetric extends ComplexMetricTemplate {
                 "valueStrings=" + Arrays.toString(valueStrings) +
                 ", values=" + values +
                 ", timestamps=" + timestamps +
+                ", labels=" + super.getLabels() +
                 '}';
     }
 
