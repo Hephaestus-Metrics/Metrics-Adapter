@@ -33,7 +33,7 @@ public class DemoTask extends TimerTask {
         this.kieSession = kieSession;
         this.executionService = executionService;
         List<String> list = new ArrayList<>();
-        list.add("scalar({cpu=\"0\",__name__=\"node_cpu_guest_seconds_total\",mode=\"user\"})");
+        list.add("scalar({cpu=\"0\",__name__=\"node_cpu_guest_seconds_total\",mode=\"user\"})"); //todo add exception
         this.toQuery = new QueryInfo(list);
         this.logBuilder = new StringBuilder();
     }

@@ -1,5 +1,7 @@
 package com.example.droolsprototype.query;
 
+import com.example.droolsprototype.model.QueryInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +15,9 @@ public class QueryBuilder {
     }
 
     public void buildQueries() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-
         for(String[] metric: this.metrics) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("{");
             for(String labels: metric) {
                 String[] parameter = labels.split(":", 2);
                 sb.append(parameter[0])
@@ -32,8 +33,8 @@ public class QueryBuilder {
         }
     }
 
-    public List<String> getQueries() {
-        return this.queries;
+    public QueryInfo getQueries() {
+        return new QueryInfo(this.queries);
     }
 
 }
