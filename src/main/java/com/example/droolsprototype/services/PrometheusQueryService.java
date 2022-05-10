@@ -4,11 +4,14 @@ import com.example.droolsprototype.model.ResultTypes;
 import com.example.droolsprototype.model.promql.AbstractQueryResult;
 import com.example.droolsprototype.model.promql.complexqueries.ComplexQueryResult;
 import com.example.droolsprototype.model.promql.simplequeries.SimpleQueryResult;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -28,9 +31,9 @@ public class PrometheusQueryService {
     }
 
     public AbstractQueryResult queryMetric(String query) {
-        String url = PROMETHEUS_URL + "/api/v1/query?query={some_query}";
-        String resultString = restTemplate.getForObject(url, String.class, query);
+        String url = PROMETHEUS_URL + "/api/v12/query?query={some_query}";
         try {
+            String resultString = restTemplate.getForObject(url, String.class, query);
             JSONObject resultJSON = new JSONObject(resultString);
             ResultTypes resultType = ResultTypes.valueOf(resultJSON.getJSONObject("data").
                     getString("resultType").toUpperCase());
@@ -40,8 +43,8 @@ public class PrometheusQueryService {
             } else {
                 return objectMapper.readValue(resultString, SimpleQueryResult.class);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (RestClientException | JSONException | IllegalArgumentException | JsonProcessingException e) {
+            e.printStackTrace();
             return null;
         }
     }
