@@ -31,7 +31,7 @@ public class PrometheusQueryService {
     }
 
     public AbstractQueryResult queryMetric(String query) {
-        String url = PROMETHEUS_URL + "/api/v12/query?query={some_query}";
+        String url = PROMETHEUS_URL + "/api/v1/query?query={some_query}";
         try {
             String resultString = restTemplate.getForObject(url, String.class, query);
             JSONObject resultJSON = new JSONObject(resultString);

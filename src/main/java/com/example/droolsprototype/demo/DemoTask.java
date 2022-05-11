@@ -49,7 +49,7 @@ public class DemoTask extends TimerTask {
                 for (MetricTemplate metric: queryResult.getMetricObjects()){
                     kieSession.insert(metric);
                 }
-                //System.out.println((queryResult.getMetricObjects().get(0)));
+                System.out.println((queryResult.getMetricObjects().get(0)));
                 //debug
             } catch (Exception e) {
                 StringWriter sw = new StringWriter();
