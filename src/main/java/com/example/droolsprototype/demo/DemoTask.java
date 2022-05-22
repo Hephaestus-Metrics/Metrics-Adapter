@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -24,42 +23,42 @@ public class DemoTask extends TimerTask {
     private final KieSession kieSession;
     private final ExecutionService executionService;
 
-    private String[] queries;
+//    private String[] queries;
 
-    private QueryInfo toQuery;
+//    private QueryInfo toQuery;
     private final StringBuilder logBuilder;
 
     public DemoTask(PrometheusQueryService queryService, KieSession kieSession, ExecutionService executionService) {
         this.queryService = queryService;
         this.kieSession = kieSession;
         this.executionService = executionService;
-        List<String> list = new ArrayList<>();
-        list.add("scalar({cpu=\"0\",__name__=\"node_cpu_guest_seconds_total\",mode=\"user\"})"); //todo add exception
-        this.toQuery = new QueryInfo(list);
+//        List<String> list = new ArrayList<>();
+//        list.add("scalar({cpu=\"0\",__name__=\"node_cpu_guest_seconds_total\",mode=\"user\"})"); //todo add exception
+//        this.toQuery = new QueryInfo(list);
         this.logBuilder = new StringBuilder();
     }
 
     public void run() {
-        QueryInfo toQuery = this.toQuery; //makes a local copy (so that it's immutable from the outside)
         //sending requests for metrics
-        for (String query : toQuery.getQueries()) {
-            try {
-                AbstractQueryResult queryResult = queryService.queryMetric(query);
-                logBuilder.append(query).append("\n"); //log query
+        try {
+            List<AbstractQueryResult> queryResults = queryService.queryMetrics();
+            for (AbstractQueryResult queryResult : queryResults){
+//                logBuilder.append(query).append("\n"); //log query
                 for (MetricTemplate metric: queryResult.getMetricObjects()){
                     kieSession.insert(metric);
                 }
                 System.out.println((queryResult.getMetricObjects().get(0)));
-                //debug
-            } catch (Exception e) {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-                e.printStackTrace(pw);
-                logBuilder.append(sw).append("\n");
-                e.printStackTrace();
             }
-
+            //debug
+        } catch (Exception e) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            logBuilder.append(sw).append("\n");
+            e.printStackTrace();
         }
+
+
         //give control of executor
         kieSession.insert(executionService);
 
@@ -68,20 +67,20 @@ public class DemoTask extends TimerTask {
         kieSession.fireAllRules();
     }
 
-    public void setToQuery(QueryInfo toQuery) {
-        this.toQuery = toQuery;
-    }
-
-    public QueryInfo getToQuery() {
-        return toQuery;
-    }
+//    public void setToQuery(QueryInfo toQuery) {
+//        this.toQuery = toQuery;
+//    }
+//
+//    public QueryInfo getToQuery() {
+//        return toQuery;
+//    }
 
     public String getQueryLogs() {
         return logBuilder.toString();
     }
 
-    public void setQueries(String[] queries) {
-        this.queries = queries;
-    }
+//    public void setQueries(String[] queries) {
+//        this.queries = queries;
+//    }
 
 }
