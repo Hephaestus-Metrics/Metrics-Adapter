@@ -25,7 +25,7 @@ public class DemoLogController {
     @GetMapping("/query/list")
     @ResponseBody
     public String getListEndpoint() {
-        return String.join("\n", demoTask.getToQuery().getQueries());
+        return "";
     }
 
 }

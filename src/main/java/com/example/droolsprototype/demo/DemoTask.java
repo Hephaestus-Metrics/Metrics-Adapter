@@ -1,7 +1,6 @@
 package com.example.droolsprototype.demo;
 
 import com.example.droolsprototype.execution.ExecutionService;
-import com.example.droolsprototype.model.QueryInfo;
 import com.example.droolsprototype.model.metrics.MetricTemplate;
 import com.example.droolsprototype.model.promql.AbstractQueryResult;
 import com.example.droolsprototype.services.PrometheusQueryService;
@@ -23,27 +22,22 @@ public class DemoTask extends TimerTask {
     private final KieSession kieSession;
     private final ExecutionService executionService;
 
-//    private String[] queries;
-
-//    private QueryInfo toQuery;
     private final StringBuilder logBuilder;
 
     public DemoTask(PrometheusQueryService queryService, KieSession kieSession, ExecutionService executionService) {
         this.queryService = queryService;
         this.kieSession = kieSession;
         this.executionService = executionService;
-//        List<String> list = new ArrayList<>();
-//        list.add("scalar({cpu=\"0\",__name__=\"node_cpu_guest_seconds_total\",mode=\"user\"})"); //todo add exception
-//        this.toQuery = new QueryInfo(list);
         this.logBuilder = new StringBuilder();
     }
 
     public void run() {
         //sending requests for metrics
+        boolean empty = true;
         try {
             List<AbstractQueryResult> queryResults = queryService.queryMetrics();
+            empty = queryResults.isEmpty();
             for (AbstractQueryResult queryResult : queryResults){
-//                logBuilder.append(query).append("\n"); //log query
                 for (MetricTemplate metric: queryResult.getMetricObjects()){
                     kieSession.insert(metric);
                 }
@@ -62,25 +56,16 @@ public class DemoTask extends TimerTask {
         //give control of executor
         kieSession.insert(executionService);
 
-        //tell drools to evaluate all rules
-        System.out.println("Running drools...");
-        kieSession.fireAllRules();
-    }
 
-//    public void setToQuery(QueryInfo toQuery) {
-//        this.toQuery = toQuery;
-//    }
-//
-//    public QueryInfo getToQuery() {
-//        return toQuery;
-//    }
+        //tell drools to evaluate all rules if any metric has been added
+        if (!empty){
+            System.out.println("Running drools...");
+            kieSession.fireAllRules();
+        }
+
+    }
 
     public String getQueryLogs() {
         return logBuilder.toString();
     }
-
-//    public void setQueries(String[] queries) {
-//        this.queries = queries;
-//    }
-
 }

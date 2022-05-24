@@ -28,7 +28,7 @@ public class QueryController {
 
     @PostMapping("/queries")
     public ResponseEntity<Object> postQueriesEndpoint(@RequestBody QueryInfo queryInfo) {
-        demoTask.setToQuery(queryInfo);
+//        demoTask.setToQuery(queryInfo);
         return ResponseEntity.ok().build(); //returns 200 OK
     }
 
@@ -37,7 +37,7 @@ public class QueryController {
         String[][] metrics = body;
         QueryBuilder queryBuilder = new QueryBuilder(metrics);
         queryBuilder.buildQueries();
-        demoTask.setToQuery(queryBuilder.getQueries());
+//        demoTask.setToQuery(queryBuilder.getQueries());
         return ResponseEntity.ok().build(); // for now it is OK, but todo in the future, we need to return success message
     }
 
