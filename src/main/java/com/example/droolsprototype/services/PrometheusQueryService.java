@@ -1,11 +1,11 @@
 package com.example.droolsprototype.services;
 
-import com.example.droolsprototype.model.ResultTypes;
-import com.example.droolsprototype.model.promql.AbstractQueryResult;
-import com.example.droolsprototype.model.promql.complexqueries.ComplexQueryResult;
-import com.example.droolsprototype.model.promql.simplequeries.SimpleQueryResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.hephaestusmetrics.model.ResultTypes;
+import io.github.hephaestusmetrics.model.promql.AbstractQueryResult;
+import io.github.hephaestusmetrics.model.promql.complexqueries.ComplexQueryResult;
+import io.github.hephaestusmetrics.model.promql.simplequeries.SimpleQueryResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
