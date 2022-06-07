@@ -1,9 +1,9 @@
 package com.example.droolsprototype.demo;
 
 import com.example.droolsprototype.execution.ExecutionService;
-import com.example.droolsprototype.model.metrics.MetricTemplate;
-import com.example.droolsprototype.model.promql.AbstractQueryResult;
 import com.example.droolsprototype.services.PrometheusQueryService;
+import io.github.hephaestusmetrics.model.metrics.MetricTemplate;
+import io.github.hephaestusmetrics.model.promql.AbstractQueryResult;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Component;
 
