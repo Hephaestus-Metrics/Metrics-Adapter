@@ -2,14 +2,11 @@ package com.example.droolsprototype.controllers;
 
 import com.example.droolsprototype.conf.Configuration;
 import com.example.droolsprototype.demo.DemoTask;
-import com.example.droolsprototype.model.QueryInfo;
-import com.example.droolsprototype.query.QueryBuilder;
-import com.example.droolsprototype.services.PrometheusQueryService;
+import io.github.hephaestusmetrics.model.QueryInfo;
+import io.github.hephaestusmetrics.query.QueryBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.List;
 
 /**
  * Provides an endpoint for posting queries to be executed as part of the demo

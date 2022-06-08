@@ -49,6 +49,12 @@
             <version>7.66.0.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.hephaestus-metrics</groupId>
+            <artifactId>translator</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
 
         <!-- test dependencies-->
         <dependency>
