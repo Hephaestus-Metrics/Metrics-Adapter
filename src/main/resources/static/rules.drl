@@ -135,7 +135,7 @@ rule "more_than_5_percent_filesystem_taken"
             size : value
         )
         executor : ExecutionService()
-        eval(avail_bytes / size > 0.8)
+        eval(1 - (avail_bytes / size) > 0.8)
     then
         executor.log("More than 80% of file system taken in \"/tmp\": " + avail_bytes / size * 100 + "%");
 end
