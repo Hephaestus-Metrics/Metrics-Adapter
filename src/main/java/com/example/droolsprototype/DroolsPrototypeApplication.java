@@ -13,8 +13,6 @@ import java.util.Timer;
 @SpringBootApplication
 public class DroolsPrototypeApplication {
 
-    public final static double CPU_THRESHOLD = -999;
-
     private final DemoTask demoTask;
 
     public static void main(String[] args) {

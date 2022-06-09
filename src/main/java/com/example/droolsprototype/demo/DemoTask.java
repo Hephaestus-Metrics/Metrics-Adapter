@@ -1,7 +1,11 @@
 package com.example.droolsprototype.demo;
 
 import com.example.droolsprototype.execution.ExecutionService;
+import com.example.droolsprototype.model.promql.AbstractQueryResult;
 import com.example.droolsprototype.services.PrometheusQueryService;
+import org.kie.api.runtime.StatelessKieSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import io.github.hephaestusmetrics.model.metrics.MetricTemplate;
 import io.github.hephaestusmetrics.model.promql.AbstractQueryResult;
 import org.kie.api.runtime.KieSession;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -19,12 +24,13 @@ import java.util.TimerTask;
 public class DemoTask extends TimerTask {
 
     private final PrometheusQueryService queryService;
-    private final KieSession kieSession;
+    private final StatelessKieSession kieSession;
     private final ExecutionService executionService;
-
     private final StringBuilder logBuilder;
 
-    public DemoTask(PrometheusQueryService queryService, KieSession kieSession, ExecutionService executionService) {
+    Logger logger = LoggerFactory.getLogger(DemoTask.class);
+
+    public DemoTask(PrometheusQueryService queryService, StatelessKieSession kieSession, ExecutionService executionService) {
         this.queryService = queryService;
         this.kieSession = kieSession;
         this.executionService = executionService;
@@ -34,14 +40,12 @@ public class DemoTask extends TimerTask {
     public void run() {
         //sending requests for metrics
         boolean empty = true;
+        List<Object> kieInput = new ArrayList<>();
         try {
             List<AbstractQueryResult> queryResults = queryService.queryMetrics();
             empty = queryResults.isEmpty();
             for (AbstractQueryResult queryResult : queryResults){
-                for (MetricTemplate metric: queryResult.getMetricObjects()){
-                    kieSession.insert(metric);
-                }
-                System.out.println((queryResult.getMetricObjects().get(0)));
+                kieInput.addAll(queryResult.getMetricObjects());
             }
             //debug
         } catch (Exception e) {
@@ -52,15 +56,13 @@ public class DemoTask extends TimerTask {
             e.printStackTrace();
         }
 
-
         //give control of executor
-        kieSession.insert(executionService);
-
+        kieInput.add(executionService);
 
         //tell drools to evaluate all rules if any metric has been added
-        if (!empty){
-            System.out.println("Running drools...");
-            kieSession.fireAllRules();
+        if (!empty) {
+            logger.info("Running drools...");
+            kieSession.execute(kieInput);
         }
 
     }

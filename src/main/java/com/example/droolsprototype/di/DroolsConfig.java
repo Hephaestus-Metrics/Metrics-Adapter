@@ -5,7 +5,7 @@ import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.KieModule;
 import org.kie.api.builder.KieRepository;
 import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.io.ResourceFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,8 +44,8 @@ public class DroolsConfig {
     }
 
     @Bean
-    public KieSession getKieSession(KieContainer kieContainer) {
-        return kieContainer.newKieSession();
+    public StatelessKieSession getKieSession(KieContainer kieContainer) {
+        return kieContainer.newStatelessKieSession();
     }
 
 }
