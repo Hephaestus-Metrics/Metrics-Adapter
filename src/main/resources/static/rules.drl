@@ -121,7 +121,7 @@ end
 /**
  * Logs if filesystem is taken in more than 80% in /tmp
  */
-rule "more_than_5_percent_filesystem_taken"
+rule "more_than_80_percent_filesystem_taken"
     dialect "mvel"
     when
         avail_bytes_m : VectorMetric(
@@ -135,8 +135,8 @@ rule "more_than_5_percent_filesystem_taken"
             size : value
         )
         executor : ExecutionService()
-        eval(avail_bytes / size > 0.8)
+        eval(1 - (avail_bytes / size) > 0.8)
     then
-        executor.log("More than 80% of file system taken in \"/tmp\": " + avail_bytes / size * 100 + "%");
+        executor.log("More than 80% of file system taken in \"/tmp\": " + (1 - (avail_bytes / size)) * 100 + "%");
 end
 
