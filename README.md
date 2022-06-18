@@ -14,7 +14,7 @@ To get more information about Java metric representation see [Hephaestus Transla
 In a given example fulfilling the rule's requirement results in the Execution Service logging message specified in the rule.
 
 ## Mapping JSON object from Hephaestus GUI to metric object
-To see how to map JSON representation to Java object using Spring Boot and Jackson see [PrometheusQueryService](https://github.com/Hephaestus-Metrics/Metrics-Adapter/blob/main/src/main/java/com/example/droolsprototype/services/PrometheusQueryService.java)
+To see how to map JSON representation to Java object using Spring Boot see [PrometheusQueryService](https://github.com/Hephaestus-Metrics/Metrics-Adapter/blob/main/src/main/java/com/example/droolsprototype/services/PrometheusQueryService.java)
 
 ## Example rule definition
 Below you can see an example rule
