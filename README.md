@@ -19,7 +19,29 @@ To see how to map JSON representation to Java object using Spring Boot see [Prom
 ## Example rule definition
 Below you can see an example rule
 
-![image](https://user-images.githubusercontent.com/73036080/174456180-df43a648-bbcc-460f-b39b-fdbf3c654335.png)
+```
+/**
+ * Logs if filesystem is taken in more than 80% in /tmp
+ */
+rule "more_than_80_percent_filesystem_taken"
+    dialect "mvel"
+    when
+        avail_bytes_m : VectorMetric(
+            name == "node_filesystem_avail_bytes",
+            labels["mountpoint"] == "/tmp",
+            avail_bytes : value
+        )
+        size_bytes_m : VectorMetric(
+            name == "node_filesystem_size_bytes",
+            labels["mountpoint"] == "/tmp",
+            size : value
+        )
+        executor : ExecutionService()
+        eval(1 - (avail_bytes / size) > 0.8)
+    then
+        executor.log("More than 80% of file system taken in \"/tmp\": " + (1 - (avail_bytes / size)) * 100 + "%");
+end
+```
 
 This rule fires when:
 * VectorMetric with name "node_filesystem_avail_bytes", and label "mountpoint" = "/tmp" was received from Hephaestus GUI back-end
