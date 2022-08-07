@@ -1,14 +1,11 @@
 package com.example.droolsprototype.demo;
 
 import com.example.droolsprototype.execution.ExecutionService;
-import com.example.droolsprototype.model.promql.AbstractQueryResult;
 import com.example.droolsprototype.services.PrometheusQueryService;
 import org.kie.api.runtime.StatelessKieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.github.hephaestusmetrics.model.metrics.MetricTemplate;
 import io.github.hephaestusmetrics.model.promql.AbstractQueryResult;
-import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;

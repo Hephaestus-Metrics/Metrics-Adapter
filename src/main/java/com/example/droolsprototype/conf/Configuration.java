@@ -1,5 +1,5 @@
 package com.example.droolsprototype.conf;
 
 public class Configuration {
-    public static final String GUI_ORIGINS = "http://localhost:4200";
+    public static final String SELECTED_METRICS = "/hephaestus/metrics/selected";
 }

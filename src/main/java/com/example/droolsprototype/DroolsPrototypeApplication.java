@@ -16,13 +16,10 @@ public class DroolsPrototypeApplication {
     private final DemoTask demoTask;
 
     public static void main(String[] args) {
-
         //create an instance of this class and all its dependencies
         ConfigurableApplicationContext context = SpringApplication.run(DroolsPrototypeApplication.class, args);
         //get the instance and invoke the runExample() method
         context.getBean(DroolsPrototypeApplication.class).runExample();
-
-//        SpringApplication.run(DroolsPrototypeApplication.class, args);
     }
 
     public DroolsPrototypeApplication(DemoTask demoTask) {

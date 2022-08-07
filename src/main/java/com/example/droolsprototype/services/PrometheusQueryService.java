@@ -18,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.droolsprototype.conf.Configuration.SELECTED_METRICS;
+
 /**
  * Service for making GET requests to the GUI for Prometheus values
  */
@@ -26,37 +28,39 @@ public class PrometheusQueryService {
 
     private final RestTemplate restTemplate;
 
-    private static String BACKEND_URL;
+    private static String url;
 
     public PrometheusQueryService(RestTemplateBuilder restTemplateBuilder, @Value("${backend:}") String backendUrl) {
-        PrometheusQueryService.BACKEND_URL = backendUrl;
+        this.url = backendUrl + SELECTED_METRICS;
         this.restTemplate = restTemplateBuilder.build();
     }
 
     public List<AbstractQueryResult> queryMetrics() {
         ArrayList<AbstractQueryResult> queryResults = new ArrayList<>();
-        String url = BACKEND_URL + "/hephaestus/metrics/selected";
         try {
-            String resultString = restTemplate.getForEntity(url, String.class).getBody();
-            JSONObject resultJSON = new JSONObject(resultString);
-            JSONArray resultJSONArray = resultJSON.getJSONArray("simpleMetrics");
-            for (int i = 0; i < resultJSONArray.length(); i++){
-                String queryString = resultJSONArray.getString(i);
-                JSONObject queryResult = new JSONObject(queryString);
-                ResultTypes resultType = ResultTypes.valueOf(queryResult.getJSONObject("data").
-                        getString("resultType").toUpperCase());
-                ObjectMapper objectMapper = new ObjectMapper();
-                if (resultType == ResultTypes.VECTOR || resultType == ResultTypes.MATRIX) {
-                    queryResults.add(objectMapper.readValue(queryString, ComplexQueryResult.class));
-                } else {
-                    queryResults.add(objectMapper.readValue(queryString, SimpleQueryResult.class));
-                }
-            }
+            prepareData(queryResults);
             return queryResults;
-
         } catch (RestClientException | JSONException | IllegalArgumentException | JsonProcessingException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private void prepareData(ArrayList<AbstractQueryResult> queryResults) throws JSONException, JsonProcessingException {
+        String resultString = restTemplate.getForEntity(url, String.class).getBody();
+        JSONObject resultJSON = new JSONObject(resultString);
+        JSONArray resultJSONArray = resultJSON.getJSONArray("simpleMetrics");
+        for (int i = 0; i < resultJSONArray.length(); i++) {
+            String queryString = resultJSONArray.getString(i);
+            JSONObject queryResult = new JSONObject(queryString);
+            ResultTypes resultType = ResultTypes.valueOf(queryResult.getJSONObject("data").
+                    getString("resultType").toUpperCase());
+            ObjectMapper objectMapper = new ObjectMapper();
+            if (resultType == ResultTypes.VECTOR || resultType == ResultTypes.MATRIX) {
+                queryResults.add(objectMapper.readValue(queryString, ComplexQueryResult.class));
+            } else {
+                queryResults.add(objectMapper.readValue(queryString, SimpleQueryResult.class));
+            }
         }
     }
 }
