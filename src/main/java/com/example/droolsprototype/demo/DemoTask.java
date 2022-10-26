@@ -2,10 +2,10 @@ package com.example.droolsprototype.demo;
 
 import com.example.droolsprototype.execution.ExecutionService;
 import com.example.droolsprototype.services.PrometheusQueryService;
+import io.github.hephaestusmetrics.model.metrics.Metric;
 import org.kie.api.runtime.StatelessKieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.github.hephaestusmetrics.model.promql.AbstractQueryResult;
 import org.springframework.stereotype.Component;
 
 import java.io.PrintWriter;
@@ -39,10 +39,13 @@ public class DemoTask extends TimerTask {
         boolean empty = true;
         List<Object> kieInput = new ArrayList<>();
         try {
-            List<AbstractQueryResult> queryResults = queryService.queryMetrics();
+            List<Metric> queryResults = queryService.queryMetrics();
+            kieInput.addAll(queryResults);
             empty = queryResults.isEmpty();
-            for (AbstractQueryResult queryResult : queryResults){
-                kieInput.addAll(queryResult.getMetricObjects());
+
+            // TODO this is a temporary print while the rules are disabled
+            for (Metric metric : queryResults) {
+                System.out.println(metric.getQueryTag() + " " + metric.getValueString());
             }
             //debug
         } catch (Exception e) {
