@@ -8,11 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Demo performing queries and firing mock rule engine rules
@@ -36,31 +35,16 @@ public class DemoTask extends TimerTask {
 
     public void run() {
         //sending requests for metrics
-        boolean empty = true;
-        List<Object> kieInput = new ArrayList<>();
-        try {
-            List<Metric> queryResults = queryService.queryMetrics();
-            kieInput.addAll(queryResults);
-            empty = queryResults.isEmpty();
+        List<Metric> queryResults = queryService.queryMetrics();
+        if (!queryResults.isEmpty()) {
 
-            // TODO this is a temporary print while the rules are disabled
-            for (Metric metric : queryResults) {
-                System.out.println(metric.getQueryTag() + " " + metric.getValueString());
-            }
-            //debug
-        } catch (Exception e) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            logBuilder.append(sw).append("\n");
-            e.printStackTrace();
-        }
+            // prepare list including results and executor
+            List<Object> kieInput = Stream.concat(
+                    queryResults.stream(), Stream.of(executionService))
+                    .collect(Collectors.toList());
 
-        //give control of executor
-        kieInput.add(executionService);
+            //tell drools to evaluate all rules if any metric has been added
 
-        //tell drools to evaluate all rules if any metric has been added
-        if (!empty) {
             logger.info("Running drools...");
             kieSession.execute(kieInput);
         }

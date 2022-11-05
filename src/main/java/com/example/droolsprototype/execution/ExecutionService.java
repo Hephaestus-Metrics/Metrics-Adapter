@@ -20,7 +20,7 @@ public class ExecutionService {
     public String debugMessageEndpoint() {
         return msg;
     }
-    public void execute(String message){
+    public void log(String message){
         System.out.println("Executor: " + message);
     }
 
