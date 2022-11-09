@@ -7,7 +7,7 @@ rule "enforce_pod_cpu"
     dialect "mvel"
     when
         metric : Metric(
-            labels["__name__"] == "container_cpu_usage_seconds_total",
+            name == "container_cpu_usage_seconds_total",
             labels["namespace"] == "sock-shop",
             labels["container"] == "front-end",
             value > TestConstants.FRONT_END_SOCK_SHOP_CPU_LIMIT

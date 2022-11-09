@@ -23,7 +23,7 @@ rule "disk_pressure_alert"
     dialect "mvel"
     when
         metric : Metric(
-            labels["__name__"] == "kube_node_status_condition",
+            name == "kube_node_status_condition",
             labels["condition"] == "DiskPressure",
             labels["status"] == "true",
             value == 1
@@ -40,7 +40,7 @@ rule "node_status_condition"
     dialect "mvel"
     when
         metric : Metric(
-            labels["__name__"] == "kube_node_status_condition",
+            name == "kube_node_status_condition",
             value == 1
         )
         executor : ExecutionService()
@@ -55,7 +55,7 @@ rule "network_down_alert"
     dialect "mvel"
     when
         metric : Metric(
-            labels["__name__"] == "node_network_up",
+            name == "node_network_up",
             value == 0
         )
         executor : ExecutionService()
@@ -70,7 +70,7 @@ rule "network_up_alert"
     dialect "mvel"
     when
         metric : Metric(
-            labels["__name__"] == "node_network_up",
+            name == "node_network_up",
             value == 1
         )
         executor : ExecutionService()
@@ -85,11 +85,11 @@ rule "more_than_10_percent_memory_taken"
     dialect "mvel"
     when
         active_bytes_m : Metric(
-            labels["__name__"] == "node_memory_Active_bytes",
+            name == "node_memory_Active_bytes",
             active_bytes : value
         )
         total_bytes_m : Metric(
-            labels["__name__"] == "node_memory_MemTotal_bytes",
+            name == "node_memory_MemTotal_bytes",
             total_bytes : value
         )
         executor : ExecutionService()
@@ -105,11 +105,11 @@ rule "less_than_10_percent_memory_taken"
     dialect "mvel"
     when
         active_bytes_m : Metric(
-            labels["__name__"] == "node_memory_Active_bytes",
+            name == "node_memory_Active_bytes",
             active_bytes : value
         )
         total_bytes_m : Metric(
-            labels["__name__"] == "node_memory_MemTotal_bytes",
+            name == "node_memory_MemTotal_bytes",
             total_bytes : value
         )
         executor : ExecutionService()
@@ -125,12 +125,12 @@ rule "more_than_80_percent_filesystem_taken"
     dialect "mvel"
     when
         avail_bytes_m : Metric(
-            labels["__name__"] == "node_filesystem_avail_bytes",
+            name == "node_filesystem_avail_bytes",
             labels["mountpoint"] == "/tmp",
             avail_bytes : value
         )
         size_bytes_m : Metric(
-            labels["__name__"] == "node_filesystem_size_bytes",
+            name == "node_filesystem_size_bytes",
             labels["mountpoint"] == "/tmp",
             size : value
         )
