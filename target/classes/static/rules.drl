@@ -64,7 +64,7 @@ rule "network_down_alert"
 end
 
 /**
- * Lsits devices with network
+ * Lists devices with network
  */
 rule "network_up_alert"
     dialect "mvel"
