@@ -20,12 +20,9 @@ public class ExecutionService {
     public String debugMessageEndpoint() {
         return msg;
     }
-    //this is just a mock for debug purposes
-    //in a real system information about necessary changes could be posted on a designated endpoint
-    // which the executor container would read
-    // or there could be some other mechanism of letting the executor know the system requires adjusting
-    //either way, implementing the executor is beyond the scope of this demo
     public void log(String message){
         System.out.println("Executor: " + message);
     }
+
+    public void execute(String message, String message2){}
 }
