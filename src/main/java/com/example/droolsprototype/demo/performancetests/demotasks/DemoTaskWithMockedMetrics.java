@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 public class DemoTaskWithMockedMetrics {
     private final StatelessKieSession kieSession;
     private final ExecutionService executionService;
-    private static final int START = 10000;
-    private static final int STOP = 10001;
-    private static final int STEP = 1;
+    private static final int START = 10;
+    private static final int STOP = 10000;
+    private static final int STEP = 10;
 
 
     @Value("${test.save.path}")
@@ -35,7 +35,6 @@ public class DemoTaskWithMockedMetrics {
                     .collect(Collectors.toList());
 
             var timeBeforeExecution = System.currentTimeMillis();
-            System.out.println(kieInput.size());
             kieSession.execute(kieInput);
             var timeAfterExecution = System.currentTimeMillis();
 
