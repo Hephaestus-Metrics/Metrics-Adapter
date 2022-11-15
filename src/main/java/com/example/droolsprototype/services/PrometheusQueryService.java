@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class PrometheusQueryService {
 
+    private final static String SELECTED_ENDPOINT =  "/hephaestus/metrics/selected";
+
     private final RestTemplate restTemplate;
     private final Translator translator = new Translator();
 
@@ -31,7 +33,7 @@ public class PrometheusQueryService {
     }
 
     public List<Metric> queryMetrics() {
-        String url = BACKEND_URL + "/hephaestus/metrics/selected";
+        String url = BACKEND_URL + SELECTED_ENDPOINT;
         RawQueryResult[] rawMetrics = restTemplate.getForObject(url, RawQueryResult[].class);
         return Arrays.stream(Objects.requireNonNullElse(rawMetrics, new RawQueryResult[]{}))
                 .map(translator::parseVectorResult)
