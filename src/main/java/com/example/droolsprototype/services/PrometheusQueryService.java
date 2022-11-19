@@ -36,8 +36,8 @@ public class PrometheusQueryService {
         String url = BACKEND_URL + SELECTED_ENDPOINT;
         RawQueryResult[] rawMetrics = restTemplate.getForObject(url, RawQueryResult[].class);
         return Arrays.stream(Objects.requireNonNullElse(rawMetrics, new RawQueryResult[]{}))
-                .map(translator::parseVectorResult)
-                .flatMap(result -> result.getAll().stream())
+                .map(translator::parseResult)
+                .flatMap(result -> result.getMetrics().stream())
                 .collect(Collectors.toList());
     }
 }
