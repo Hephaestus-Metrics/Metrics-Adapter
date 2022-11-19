@@ -13,6 +13,7 @@ import java.lang.System;
  * __name__: node_memory_MemTotal_bytes
  * __name__: node_filesystem_avail_bytes, mountpoint: /tmp
  * __name__: node_filesystem_size_bytes, mountpoint: /tmp
+ * custom query metric
  */
 
 
@@ -139,4 +140,19 @@ rule "more_than_80_percent_filesystem_taken"
     then
         executor.log("More than 80% of file system taken in \"/tmp\": " + (1 - (avail_bytes / size)) * 100 + "%");
 end
+
+/**
+ * Custom query
+ */
+rule "custom_query_rule"
+    dialect "mvel"
+    when
+        metric : Metric(
+            queryTag == "custom_tag"
+        )
+        executor: ExecutionService()
+    then
+        executor.log("Custom metric found, current value: " + metric.getValue());
+end
+
 
