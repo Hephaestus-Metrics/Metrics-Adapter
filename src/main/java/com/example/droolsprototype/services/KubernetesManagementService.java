@@ -32,7 +32,7 @@ public class KubernetesManagementService {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("namespace", namespace);
         parameters.put("podName", podName);
-        logger.info(String.format("Execute rules function with parameters: namespace - %s, pod name - %s"), namespace, podName);
+        logger.info(String.format("Execute rules function with parameters: namespace - %s, pod name - %s", namespace, podName));
         ResponseEntity response = restTemplate.getForEntity(url, ResponseEntity.class);
         if(response.getStatusCode() == HttpStatus.OK) {
             logger.info("Execute function executed");
