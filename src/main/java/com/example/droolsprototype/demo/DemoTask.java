@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.TimerTask;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,19 +16,13 @@ import java.util.stream.Stream;
  * Demo performing queries and firing mock rule engine rules
  */
 @Component
-public class DemoTask extends TimerTask {
-
-    private final PrometheusQueryService queryService;
-    private final StatelessKieSession kieSession;
-    private final ExecutionService executionService;
+public class DemoTask extends SimpleDemoTask {
     private final StringBuilder logBuilder;
 
     Logger logger = LoggerFactory.getLogger(DemoTask.class);
 
     public DemoTask(PrometheusQueryService queryService, StatelessKieSession kieSession, ExecutionService executionService) {
-        this.queryService = queryService;
-        this.kieSession = kieSession;
-        this.executionService = executionService;
+        super(queryService, kieSession, executionService);
         this.logBuilder = new StringBuilder();
     }
 

@@ -1,11 +1,9 @@
 package com.example.droolsprototype.execution;
 
+import com.example.droolsprototype.services.KubernetesManagementService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Mock class simulating this service communicating with some executor, who makes changes in the system
@@ -13,6 +11,12 @@ import java.time.format.DateTimeFormatter;
 @Service
 @RestController
 public class ExecutionService {
+
+    private KubernetesManagementService kubernetesManagementService;
+
+    public ExecutionService(KubernetesManagementService kubernetesManagementService) {
+        this.kubernetesManagementService = kubernetesManagementService;
+    }
 
     private String msg = "None for now";
 
@@ -25,4 +29,8 @@ public class ExecutionService {
     }
 
     public void execute(String message, String message2){}
+
+    public void deletePod(String namespace, String podName) {
+        this.kubernetesManagementService.deletePod(namespace, podName);
+    }
 }

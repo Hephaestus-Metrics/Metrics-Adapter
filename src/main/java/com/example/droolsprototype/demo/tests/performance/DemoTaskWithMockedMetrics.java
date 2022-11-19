@@ -1,7 +1,7 @@
-package com.example.droolsprototype.demo.performancetests.demotasks;
+package com.example.droolsprototype.demo.tests.performance;
 
-import com.example.droolsprototype.demo.performancetests.utils.CSVUtils;
-import com.example.droolsprototype.demo.performancetests.utils.MockMetricsUtils;
+import com.example.droolsprototype.demo.tests.utils.CSVUtils;
+import com.example.droolsprototype.demo.tests.utils.MockMetricsUtils;
 import com.example.droolsprototype.execution.ExecutionService;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Value;

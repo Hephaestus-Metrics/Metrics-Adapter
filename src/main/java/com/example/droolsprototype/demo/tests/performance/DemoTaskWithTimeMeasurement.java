@@ -1,6 +1,7 @@
-package com.example.droolsprototype.demo.performancetests.demotasks;
+package com.example.droolsprototype.demo.tests.performance;
 
-import com.example.droolsprototype.demo.performancetests.utils.CSVUtils;
+import com.example.droolsprototype.demo.SimpleDemoTask;
+import com.example.droolsprototype.demo.tests.utils.CSVUtils;
 import com.example.droolsprototype.execution.ExecutionService;
 import com.example.droolsprototype.services.PrometheusQueryService;
 import io.github.hephaestusmetrics.model.metrics.Metric;
@@ -17,19 +18,13 @@ import java.util.stream.Stream;
  * Demo performing queries and firing mock rule engine rules
  */
 @Component
-public class DemoTaskWithTimeMeasurement extends TimerTask {
-
-    private final PrometheusQueryService queryService;
-    private final StatelessKieSession kieSession;
-    private final ExecutionService executionService;
+public class DemoTaskWithTimeMeasurement extends SimpleDemoTask {
 
     @Value("${test.save.path}")
     private String savePath;
 
     public DemoTaskWithTimeMeasurement(PrometheusQueryService queryService, StatelessKieSession kieSession, ExecutionService executionService) {
-        this.queryService = queryService;
-        this.kieSession = kieSession;
-        this.executionService = executionService;
+        super(queryService, kieSession, executionService);
     }
 
     public void run() {

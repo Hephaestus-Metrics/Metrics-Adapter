@@ -23,6 +23,7 @@ public class DroolsConfig {
 
     private static final String DEMO_RULES_PATH = "static/rules.drl";
     private static final String TESTS_RULES_PATH = "static/performance-test-rules.drl";
+    private static final String BUSINESS_DEMO_RULES_PATH = "static/business-demo-rules.drl";
 
     @Bean
     public KieServices getKieServices() {
@@ -33,12 +34,17 @@ public class DroolsConfig {
     public KieFileSystem getKieFileSystem(KieServices kieServices) {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
 
-        kieFileSystem.write(ResourceFactory.newClassPathResource(isInTestMode() ? TESTS_RULES_PATH : DEMO_RULES_PATH));
+        kieFileSystem.write(ResourceFactory.newClassPathResource(getRulesPath()));
         return kieFileSystem;
     }
 
-    private boolean isInTestMode() {
-        return mode.equals("TIME_TEST") || mode.equals("NUMBER_TEST") || mode.equals("MOCK_METRICS_TEST");
+    private String getRulesPath() {
+        if(mode.equals("TIME_TEST") || mode.equals("NUMBER_TEST") || mode.equals("MOCK_METRICS_TEST")) {
+            return TESTS_RULES_PATH;
+        } else if (mode.equals("BUSINESS_DEMO_TEST")) {
+            return BUSINESS_DEMO_RULES_PATH;
+        }
+        return DEMO_RULES_PATH;
     }
 
     private void getKieRepository(KieServices kieServices) {
