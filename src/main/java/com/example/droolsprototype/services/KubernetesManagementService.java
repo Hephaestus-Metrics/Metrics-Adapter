@@ -28,17 +28,25 @@ public class KubernetesManagementService {
     }
 
     public void deletePod(String namespace, String podName) {
-        String url = KUBERNETES_MANAGEMENT_URL + DELETE_POD_URL;
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("namespace", namespace);
-        parameters.put("podName", podName);
+        String destinationUrl = createDestinationUrl(namespace, podName);
         logger.info(String.format("Execute rules function with parameters: namespace - %s, pod name - %s", namespace, podName));
-        ResponseEntity response = restTemplate.getForEntity(url, ResponseEntity.class);
-        if(response.getStatusCode() == HttpStatus.OK) {
+        HttpStatus status = restTemplate.getForObject(destinationUrl, HttpStatus.class);
+        if(status == HttpStatus.OK) {
             logger.info("Execute function executed");
         } else {
             logger.error("Execute function failed");
         }
+    }
+
+    private String createDestinationUrl(String namespace, String podName) {
+        StringBuilder sb = new StringBuilder();
+        String url = KUBERNETES_MANAGEMENT_URL + DELETE_POD_URL;
+        sb.append(url)
+                .append("?")
+                .append("namespace=").append(namespace)
+                .append("&")
+                .append("podName=").append(podName);
+        return sb.toString();
     }
 
 }
