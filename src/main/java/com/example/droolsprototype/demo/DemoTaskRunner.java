@@ -1,10 +1,9 @@
 package com.example.droolsprototype.demo;
 
-import com.example.droolsprototype.demo.performancetests.demotasks.DemoTaskWithMockedMetrics;
+import com.example.droolsprototype.demo.tests.performance.DemoTaskWithMockedMetrics;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 

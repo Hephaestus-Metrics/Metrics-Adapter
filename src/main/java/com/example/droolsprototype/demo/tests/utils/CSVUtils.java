@@ -1,4 +1,4 @@
-package com.example.droolsprototype.demo.performancetests.utils;
+package com.example.droolsprototype.demo.tests.utils;
 
 import com.opencsv.CSVWriter;
 
