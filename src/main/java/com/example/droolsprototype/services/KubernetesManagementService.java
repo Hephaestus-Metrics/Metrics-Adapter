@@ -5,12 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class KubernetesManagementService {
@@ -29,10 +27,10 @@ public class KubernetesManagementService {
 
     public void deletePod(String namespace, String podName) {
         String destinationUrl = createDestinationUrl(namespace, podName);
-        logger.info(String.format("Execute rules function with parameters: namespace - %s, pod name - %s", namespace, podName));
+        logger.info(String.format("Executing rules function with parameters: namespace - %s, pod name - %s", namespace, podName));
         HttpStatus status = restTemplate.getForObject(destinationUrl, HttpStatus.class);
         if(status == HttpStatus.OK) {
-            logger.info("Execute function executed");
+            logger.info("Executing function executed");
         } else {
             logger.error("Execute function failed");
         }

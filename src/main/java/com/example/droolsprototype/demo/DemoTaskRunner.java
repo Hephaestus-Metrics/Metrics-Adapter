@@ -37,7 +37,6 @@ public class DemoTaskRunner {
                 timer.scheduleAtFixedRate(demoTaskWithTimeMeasurement, 0, delay);
                 break;
             case "NUMBER_TEST":
-            case "BUSINESS_DEMO_TEST":
                 timer.scheduleAtFixedRate(demoTaskWithMetricsNumLogging, 0, delay);
                 break;
             case "MOCK_METRICS_TEST":

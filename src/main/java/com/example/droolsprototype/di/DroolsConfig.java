@@ -39,12 +39,16 @@ public class DroolsConfig {
     }
 
     private String getRulesPath() {
-        if(mode.equals("TIME_TEST") || mode.equals("NUMBER_TEST") || mode.equals("MOCK_METRICS_TEST")) {
-            return TESTS_RULES_PATH;
-        } else if (mode.equals("BUSINESS_DEMO_TEST")) {
-            return BUSINESS_DEMO_RULES_PATH;
+        switch(mode) {
+            case "TIME_TEST":
+            case "NUMBER_TEST":
+            case "MOCK_METRICS_TEST":
+                return TESTS_RULES_PATH;
+            case "BUSINESS_DEMO_TEST":
+                return BUSINESS_DEMO_RULES_PATH;
+            default:
+                return DEMO_RULES_PATH;
         }
-        return DEMO_RULES_PATH;
     }
 
     private void getKieRepository(KieServices kieServices) {
