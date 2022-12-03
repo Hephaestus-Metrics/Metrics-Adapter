@@ -1,6 +1,5 @@
 package com.example.droolsprototype.demo;
 
-import com.example.droolsprototype.demo.tests.performance.DemoTaskWithMockedMetrics;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,6 @@ public class DemoTaskRunner {
     private final TimerTask demoTask;
     private final TimerTask demoTaskWithTimeMeasurement;
     private final TimerTask demoTaskWithMetricsNumLogging;
-    private final DemoTaskWithMockedMetrics demoTaskWithMockedMetrics;
     private final Timer timer = new Timer();
 
     @Value("${mode}")
@@ -23,12 +21,10 @@ public class DemoTaskRunner {
 
     public DemoTaskRunner(TimerTask demoTask,
                           TimerTask demoTaskWithTimeMeasurement,
-                          TimerTask demoTaskWithMetricsNumLogging,
-                          DemoTaskWithMockedMetrics demoTaskWithMockedMetrics) {
+                          TimerTask demoTaskWithMetricsNumLogging) {
         this.demoTask = demoTask;
         this.demoTaskWithTimeMeasurement = demoTaskWithTimeMeasurement;
         this.demoTaskWithMetricsNumLogging = demoTaskWithMetricsNumLogging;
-        this.demoTaskWithMockedMetrics = demoTaskWithMockedMetrics;
     }
 
     public void run() {
@@ -38,9 +34,6 @@ public class DemoTaskRunner {
                 break;
             case "NUMBER_TEST":
                 timer.scheduleAtFixedRate(demoTaskWithMetricsNumLogging, 0, delay);
-                break;
-            case "MOCK_METRICS_TEST":
-                demoTaskWithMockedMetrics.run();
                 break;
             default:
                 timer.scheduleAtFixedRate(demoTask, 0, delay);
