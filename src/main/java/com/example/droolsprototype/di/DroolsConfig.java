@@ -12,8 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Config file stolen from <a href="https://github.com/Java-Techie-jt/spring-drools/blob/master/src/main/java/com/javatechie/spring/drools/api/DroolConfig.java">github</a>
- * Modified to better utilize dependency injection
+ * Config file for KIE drools
  */
 @Configuration
 public class DroolsConfig {

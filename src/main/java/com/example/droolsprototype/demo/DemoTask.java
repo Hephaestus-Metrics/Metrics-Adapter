@@ -27,7 +27,7 @@ public class DemoTask extends SimpleDemoTask {
     }
 
     public void run() {
-        //sending requests for metrics
+        // sending requests for metrics
         List<Metric> queryResults = queryService.queryMetrics();
         if (!queryResults.isEmpty()) {
 
@@ -36,7 +36,7 @@ public class DemoTask extends SimpleDemoTask {
                     queryResults.stream(), Stream.of(executionService))
                     .collect(Collectors.toList());
 
-            //tell drools to evaluate all rules if any metric has been added
+            // tell drools to evaluate all rules if any metric has been added
 
             logger.info("Running drools...");
             kieSession.execute(kieInput);
