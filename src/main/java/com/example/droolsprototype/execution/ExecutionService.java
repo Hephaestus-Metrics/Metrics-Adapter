@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Mock class simulating this service communicating with some executor, who makes changes in the system
+ * Class simulating this service communicating with executor, who makes changes in the system
  */
 @Service
 @RestController
