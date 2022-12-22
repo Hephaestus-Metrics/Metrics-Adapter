@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-public class TestExecutionService extends ExecutionService{
+public class TestExecutionService extends ExecutionService {
 
     @Value("${test.save.path}")
     private String savePath;
