@@ -7,7 +7,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 
 @Service
@@ -20,7 +19,7 @@ public class KubernetesManagementService {
 
     public static String KUBERNETES_MANAGEMENT_URL;
 
-    public KubernetesManagementService(RestTemplateBuilder restTemplateBuilder, @Value("${kubernetes-management}") String kubernetesManagementUrl) {
+    public KubernetesManagementService(RestTemplateBuilder restTemplateBuilder, @Value("${kubernetes-management:}") String kubernetesManagementUrl) {
         KubernetesManagementService.KUBERNETES_MANAGEMENT_URL = kubernetesManagementUrl;
         this.restTemplate = restTemplateBuilder.build();
     }

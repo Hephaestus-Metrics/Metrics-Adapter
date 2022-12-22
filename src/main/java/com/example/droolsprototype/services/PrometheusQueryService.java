@@ -40,4 +40,9 @@ public class PrometheusQueryService {
                 .flatMap(result -> result.getMetrics().stream())
                 .collect(Collectors.toList());
     }
+
+    public RawQueryResult[] queryMetricsRaw() {
+        String url = BACKEND_URL + SELECTED_ENDPOINT;
+        return restTemplate.getForObject(url, RawQueryResult[].class);
+    }
 }
